@@ -7,7 +7,6 @@ Created on Thu Mar 18 16:23:05 2021
 import os
 from flask import Flask, render_template,flash, request, redirect, url_for,send_from_directory,jsonify
 from werkzeug.utils import secure_filename
-app = Flask(__name__)
 
 UPLOAD_FOLDER = 'static/uploaded_images'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
@@ -17,8 +16,7 @@ def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
            
-@app.route('/upload', methods=['POST'])
-def upload_image():
+def upload_image(request):
     if request.method == 'POST':
         if 'file' not in request.files:
             return jsonify("No file part")
@@ -29,14 +27,10 @@ def upload_image():
             filename = secure_filename(file.filename)
             path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
             file.save(path)
-            return  jsonify("File uploaded")
+            return jsonify("File uploaded")
+        else:
+            return jsonify("Uploaded file is not an image")
     return jsonify("Wrong request method")
 
 
 
-if __name__ == '__main__':
-    app.secret_key = 'super secret key'
-    app.config['SESSION_TYPE'] = 'filesystem'
-    
-    #sess.init_app(app)
-    app.run()
