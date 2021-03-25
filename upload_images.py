@@ -113,4 +113,4 @@ def upload_image(request):
             else:
                 continue
     
-    return jsonify(f"{cnt} images uplaoded ")
+    return jsonify(f"{cnt} images uplaoded ") 
