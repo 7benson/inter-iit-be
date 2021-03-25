@@ -6,8 +6,10 @@ Created on Thu Mar 18 14:41:54 2021
 """
 from flask import Flask,request
 from upload_images import upload_image
+from flask_cors import CORS, cross_origin
 app = Flask(__name__)
-
+cors = CORS(app)
+app.config['CORS_HEADERS'] = 'Content-Type'
 @app.route('/')
 def hello_world():
    return 'Hello World'
